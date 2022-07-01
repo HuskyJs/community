@@ -12,7 +12,9 @@ import tk.quanjia.community.mapper.UserMapper;
 import tk.quanjia.community.model.User;
 import tk.quanjia.community.provider.GithubProvider;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -44,7 +46,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {//Spring会自动拿到上下文中的HttpServletRequest
+                           HttpServletRequest request,
+                           HttpServletResponse response) {//Spring会自动拿到上下文中的HttpServletRequest
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);//您收到的响应第 1 步的代码。
         accessTokenDTO.setState(state);
@@ -56,19 +59,18 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         System.out.println(githubUser.getName());
 
-        if (githubUser != null) {
+        if(githubUser.getName()!=null){
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtCreate(user.getGmtCreate());
             userMapper.insert(user);
-            System.out.println("插入成功");
+            response.addCookie(new Cookie("token",token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
             //登录成功  写cookie 和 session
-            request.getSession().setAttribute("user",githubUser);
-        } else {
-            //失败  重新登录
+            request.getSession().setAttribute("user", githubUser);
         }
         return "redirect:/";  //写redirect 重定向  特别注意
 
