@@ -59,7 +59,7 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         System.out.println(githubUser.getName());
 
-        if(githubUser.getName()!=null){
+        if (githubUser.getId() != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
@@ -67,12 +67,12 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtCreate(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
+            response.addCookie(new Cookie("token", token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
             //登录成功  写cookie 和 session
             request.getSession().setAttribute("user", githubUser);
         }
         return "redirect:/";  //写redirect 重定向  特别注意
-
     }
 }
