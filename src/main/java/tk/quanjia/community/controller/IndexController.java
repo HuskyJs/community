@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import tk.quanjia.community.dto.PaginationDTO;
 import tk.quanjia.community.dto.QuestionDTO;
 import tk.quanjia.community.mapper.QuestionMapper;
 import tk.quanjia.community.mapper.UserMapper;
@@ -26,7 +27,10 @@ public class IndexController {
 
     @GetMapping("/")    //  "/"代表默认启动模板
     public String index(HttpServletRequest request,
-                        Model model) {
+                        Model model,
+                        @RequestParam(name="page",defaultValue = "1") Integer page,
+                        @RequestParam(name="size",defaultValue = "5") Integer size
+                        ) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie :
@@ -41,8 +45,8 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> qUestionDTOList = questionService.list(); //QuestionDTO  为Question对象中加入user成员，成为一个新的对象
-        model.addAttribute("questions", qUestionDTOList);
+        PaginationDTO pagination = questionService.list(page,size); //QuestionDTO  为Question对象中加入user成员，成为一个新的对象
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 }
