@@ -21,8 +21,6 @@ import java.util.List;
 @Controller //我允许当前的类接收前端请求
 public class IndexController {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private QuestionService questionService;
 
     @GetMapping("/")    //  "/"代表默认启动模板
@@ -31,20 +29,6 @@ public class IndexController {
                         @RequestParam(name="page",defaultValue = "1") Integer page,
                         @RequestParam(name="size",defaultValue = "5") Integer size
                         ) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie :
-                    cookies) {
-                if (cookie.getName().equals("token")) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
-                    String value = cookie.getValue();
-                    User user = userMapper.findByToken(value);
-                    if (user != null) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
         PaginationDTO pagination = questionService.list(page,size); //QuestionDTO  为Question对象中加入user成员，成为一个新的对象
         model.addAttribute("pagination", pagination);
         return "index";

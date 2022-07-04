@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping("/publish")
     public String publish() {
@@ -57,25 +55,7 @@ public class PublishController {
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
 
-        User user = null;
-        System.out.println("title:"+title);
-        Cookie[] cookies = request.getCookies();
-        if(cookies!=null){
-            System.out.println("123123");
-            for (Cookie cookie :
-                    cookies) {
-                if (cookie.getName().equals("token")) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
-                    System.out.println("======");
-                    String value = cookie.getValue();
-                    user = userMapper.findByToken(value);
-                    if (user != null) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
-
+        User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";

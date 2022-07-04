@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
-    @Autowired
-    private UserMapper userMapper;
 
     @Autowired
     private QuestionService questionService;
@@ -29,21 +27,7 @@ public class ProfileController {
             @RequestParam(name="page",defaultValue = "1") Integer page,
             @RequestParam(name="size",defaultValue = "5") Integer size,
             Model model){
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length!=0) {
-            for (Cookie cookie :
-                    cookies) {
-                if (cookie.getName().equals("token")) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
-                    String value = cookie.getValue();
-                    user = userMapper.findByToken(value);
-                    if (user != null) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if(user ==null){
             return "redirect:/";
         }
