@@ -1,9 +1,7 @@
 package tk.quanjia.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import tk.quanjia.community.dto.QuestionDTO;
 import tk.quanjia.community.model.Question;
 
 import java.util.List;
@@ -22,4 +20,9 @@ public interface QuestionMapper {
     @Select("select * from table_question where creator = #{userId} limit #{offset}, #{size}")
     List<Question> listByUserId(@Param(value="userId") Integer userId, @Param(value="offset") Integer offset, @Param(value="size") Integer size);
 
+    @Select("select * from table_question where id = #{id}")
+    Question getById(@Param(value="id") Integer id);
+
+    @Update("update table_question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag = #{tag} where id = #{id}")
+    void update(Question question);
 }

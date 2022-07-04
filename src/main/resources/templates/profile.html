@@ -28,7 +28,7 @@
                     <span class="text-desc">
                         <span th:text="${question.commentCount}"></span> 个回复 ●
                         <span th:text="${question.viewCount}"></span> 个浏览 ●
-                        <span th:text="${#calendars.format(question.gmtCreate,'dd MMMM yyyy')}"></span></span>
+                        <span th:text="${#calendars.format(question.gmtCreate,'yyyy-mm-dd')}"></span></span>
                 </div>
             </div>
             <nav aria-label="Page navigation">

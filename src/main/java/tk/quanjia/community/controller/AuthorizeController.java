@@ -1,6 +1,5 @@
 package tk.quanjia.community.controller;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import tk.quanjia.community.dto.GithubUser;
 import tk.quanjia.community.mapper.UserMapper;
 import tk.quanjia.community.model.User;
 import tk.quanjia.community.provider.GithubProvider;
+import tk.quanjia.community.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,8 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserService userService;
 
     /**
      * 如果用户接受您的请求，GitHub 将重定向回您的站点，
@@ -66,13 +68,22 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtCreate(user.getGmtCreate());
+            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
             //登录成功  写cookie 和 session
             request.getSession().setAttribute("user", githubUser);
         }
         return "redirect:/";  //写redirect 重定向  特别注意
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

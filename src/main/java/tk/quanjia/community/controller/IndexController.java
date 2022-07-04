@@ -1,22 +1,14 @@
 package tk.quanjia.community.controller;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import tk.quanjia.community.dto.PaginationDTO;
-import tk.quanjia.community.dto.QuestionDTO;
-import tk.quanjia.community.mapper.QuestionMapper;
-import tk.quanjia.community.mapper.UserMapper;
-import tk.quanjia.community.model.Question;
-import tk.quanjia.community.model.User;
 import tk.quanjia.community.service.QuestionService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller //我允许当前的类接收前端请求
 public class IndexController {

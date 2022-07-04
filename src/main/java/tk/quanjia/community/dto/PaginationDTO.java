@@ -35,6 +35,9 @@ public class PaginationDTO {
         if (page > totalPage) {
             page = totalPage;
         }
+        if (page == 0){
+            page = 1;
+        }
         this.currentPage = page;
         this.totalCount = totalCount;
 

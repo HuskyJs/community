@@ -1,9 +1,6 @@
 package tk.quanjia.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import tk.quanjia.community.model.User;
 
 
@@ -24,4 +21,10 @@ public interface UserMapper {
 
     @Select("select * from table_user where id = #{id}")
     User findById(Integer creator);
+
+    @Select("select * from table_user where account_id = #{accountId}")
+    User findByAccountId(String accountId);
+
+    @Update("update table_user set name = #{name},token = #{token}, gmt_modified = #{gmtModified},avatar_url = #{avatarUrl}")
+    void update(User dbUser);
 }
