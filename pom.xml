@@ -15,6 +15,7 @@
     <description>tk.quanjia.community</description>
     <properties>
         <java.version>1.8</java.version>
+        <dao.target.dir>src/main/java</dao.target.dir>
     </properties>
     <dependencies>
         <dependency>
@@ -84,6 +85,7 @@
     </dependencies>
 
     <build>
+        <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -109,11 +111,29 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
+<<<<<<< HEAD
                 <version>1.4.1</version>
                 <configuration>
                     <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
+=======
+                <version>1.4.1</version><executions>
+                <execution>
+                    <id>Generate MyBatis Artifacts</id>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+                <configuration>
+                    <!-- 输出详细信息 -->
+                    <verbose>true</verbose>
+                    <!-- 覆盖生成文件 -->
+                    <overwrite>true</overwrite>
+                    <!-- 定义配置文件 -->
+                    <configurationFile>${basedir}/src/main/resources/generator-configuration.xml</configurationFile>
+>>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
                 </configuration>
                 <dependencies>
                     <dependency>

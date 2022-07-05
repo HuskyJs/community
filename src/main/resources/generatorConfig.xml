@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
+
     <context id="DB2Tables" targetRuntime="MyBatis3">
 <!--        自动覆盖插件-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
@@ -33,6 +34,9 @@
 
         <table tableName="table_user" domainObjectName="User" ></table>
         <table tableName="table_question" domainObjectName="Question" ></table>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
     </context>
 </generatorConfiguration>
