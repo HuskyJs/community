@@ -24,19 +24,13 @@ public class SessionInterceptor implements HandlerInterceptor {
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie :
                     cookies) {
-                if (cookie.getName().equals("token")) {//先从Cookie中寻找 是否有 “token” 关键字，有则代表存在已经登录的用户
+                if (cookie.getName().equals("token")) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
                     String token = cookie.getValue();
                     UserExample userExample = new UserExample();
-<<<<<<< HEAD
                     userExample.createCriteria()
                             .andTokenEqualTo(token);
                     List<User> users = userMapper.selectByExample(userExample);
                     if (users.size() != 0) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
-=======
-                    userExample.createCriteria().andTokenEqualTo(token);
-                    List<User> users = userMapper.selectByExample(userExample);
-                    if (users.size()!=0) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
->>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
                         request.getSession().setAttribute("user", users.get(0));
                     }
                     break;

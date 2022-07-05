@@ -34,9 +34,5 @@
 
         <table tableName="table_user" domainObjectName="User" ></table>
         <table tableName="table_question" domainObjectName="Question" ></table>
-<<<<<<< HEAD
-
-=======
->>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
     </context>
 </generatorConfiguration>

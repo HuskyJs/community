@@ -15,16 +15,11 @@ public class UserService {
 
     public void createOrUpdate(User user) {
         UserExample userExample = new UserExample();
-<<<<<<< HEAD
         userExample.createCriteria()
                 .andAccountIdEqualTo(user.getAccountId());
         List<User> users = userMapper.selectByExample(userExample);
-        if(users.size()==0){
-=======
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
-        List<User> users = userMapper.selectByExample(userExample);
         if(users.size()!=0){
->>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
             //插入
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
@@ -37,17 +32,11 @@ public class UserService {
             updateUser.setAvatarUrl(user.getAvatarUrl());
             updateUser.setName(user.getName());
             updateUser.setToken(user.getToken());
-<<<<<<< HEAD
 
             UserExample example = new UserExample();
             example.createCriteria()
                     .andIdEqualTo(dbUser.getId());
             userMapper.updateByExampleSelective(updateUser, example);
-=======
-            UserExample example = new UserExample();
-            example.createCriteria().andIdEqualTo(dbUser.getId());
-            userMapper.updateByExampleSelective(updateUser,example);
->>>>>>> 4b5e4bf1c167e09c38ce9bb2076a6f6e735b8b22
         }
     }
 }
