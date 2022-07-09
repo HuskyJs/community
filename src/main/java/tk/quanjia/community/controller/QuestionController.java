@@ -9,17 +9,22 @@ import tk.quanjia.community.dto.QuestionDTO;
 import tk.quanjia.community.mapper.QuestionMapper;
 import tk.quanjia.community.service.QuestionService;
 
+/**
+ * 访问问题页面的时候调用
+ */
 @Controller
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
-    @Autowired
-    private QuestionMapper questionMapper;
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name="id") Integer id,
                            Model model){
         QuestionDTO questionDTO = questionService.getById(id);
+
+        //增加评论数
+        questionService.incView(id);
+
         model.addAttribute("question",questionDTO);
         return "question";
     }

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.quanjia.community.dto.PaginationDTO;
 import tk.quanjia.community.dto.QuestionDTO;
+import tk.quanjia.community.exception.CustomizeErrorCode;
+import tk.quanjia.community.exception.CustomizeException;
+import tk.quanjia.community.mapper.QuestionExtMapper;
 import tk.quanjia.community.mapper.QuestionMapper;
 import tk.quanjia.community.mapper.UserMapper;
 import tk.quanjia.community.model.Question;
@@ -22,6 +25,9 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     /**
      * @param page 展示当前页面  从1到n
@@ -83,6 +89,11 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        //用户页面出错时
+        if(question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -107,7 +118,24 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                             .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+
+            if(updated != 1){
+                //用户页面出错时
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    /**
+     * 实现阅读数加1
+     *          存在并发操作的问题  .... 留坑以后解决
+     * @param id
+     */
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
