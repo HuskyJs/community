@@ -1,5 +1,7 @@
 package tk.quanjia.community.exception;
 
+import java.util.Objects;
+
 public enum CommentTypeEnum {
     QUESTION(1),
     COMMENT(2)
@@ -8,6 +10,16 @@ public enum CommentTypeEnum {
 
     CommentTypeEnum(Integer type) {
         this.type = type;
+    }
+
+    public static boolean isExist(Integer type) {
+        for (CommentTypeEnum commentTypeEnum:
+             CommentTypeEnum.values()) {
+            if(Objects.equals(commentTypeEnum.type, type)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Integer getType() {

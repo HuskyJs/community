@@ -38,7 +38,7 @@ public class CommentController {
         comment.setContent(commentDTO.getContent());
         comment.setType(commentDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
-        comment.setCommentator(1);
+        comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
         commentService.insert(comment);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
