@@ -109,7 +109,7 @@ public class QuestionService {
             question.setViewCount(0);
             question.setLikeCount(0);
             question.setCommentCount(0);
-            questionMapper.insert(question);
+            questionMapper.insertSelective(question);
         }else{
             //更新
             Question updateQuestion = new Question();

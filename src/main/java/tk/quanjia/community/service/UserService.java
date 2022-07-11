@@ -19,15 +19,16 @@ public class UserService {
                 .andAccountIdEqualTo(user.getAccountId());
         List<User> users = userMapper.selectByExample(userExample);
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
-        if(users.size()!=0){
+        if (users.size() == 0) {
             //插入
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
-        }else{
+            userMapper.insertSelective(user);
+        } else {
             //更新
             User dbUser = users.get(0);
             User updateUser = new User();
+
             updateUser.setGmtCreate(System.currentTimeMillis());
             updateUser.setAvatarUrl(user.getAvatarUrl());
             updateUser.setName(user.getName());

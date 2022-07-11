@@ -1,1 +1,0 @@
-alter table TABLE_COMMENT add content varchar(1024) null;
