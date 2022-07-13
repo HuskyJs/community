@@ -79,6 +79,7 @@ function collapseComments(e) {
         } else {
             console.log("这是什么东西");
             $.getJSON("/comment/" + id, function (data) {
+                console.log(data.data);
                 $.each(data.data.reverse(), function (index, comment) {
                     const mediaLeftElement = $("<div/>", {
                         "class": "media-left"
