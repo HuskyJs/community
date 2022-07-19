@@ -27,10 +27,13 @@ function comment2target(targetId, type, content) {
             "type": type
         }),
         success: function (response) {
-            if (response.code == 200) {
+            console.log("看数据喽")
+            console.log(this.data)
+            debugger
+            if (response.code === 200) {
                 window.location.reload();
             } else {
-                if (response.code == 2003) {
+                if (response.code === 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
                         $('#myModal').modal({});
@@ -63,7 +66,7 @@ function collapseComments(e) {
     const collapse = e.getAttribute("data-collapse");
     if (collapse) {
         // 折叠二级评论
-        comments.removeClass("in");
+        comments.removeClass("in");``
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
     } else {
@@ -79,6 +82,8 @@ function collapseComments(e) {
         } else {
             console.log("这是什么东西");
             $.getJSON("/comment/" + id, function (data) {
+
+                console.log("！！！什");
                 console.log(data.data);
                 $.each(data.data.reverse(), function (index, comment) {
                     const mediaLeftElement = $("<div/>", {

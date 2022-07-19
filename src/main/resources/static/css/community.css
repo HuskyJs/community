@@ -76,7 +76,7 @@ body {
 }
 
 .question-wechat {
-    width: 95%;
+    width: 50%;
 }
 
 .publish-tag-tab {
@@ -90,13 +90,14 @@ body {
     margin: 5px 5px;
     display: inline-block;
 }
-
 .community-menu {
     color: #999;
     font-size: 13px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
-
+.question-edit{
+    float: right;
+}
 .jumbotron {
     margin: 50px;
 }
