@@ -2,14 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${question.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/css/community.css">
-    <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="/js/moment.js" type="application/javascript"></script>
-    <script src="/js/community.js" type="application/javascript"></script>
+    <head th:insert="~{import :: head}"></head>
+    <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
 <div th:insert="navigation :: nav"></div>
@@ -26,8 +20,27 @@
                         <span th:text="${#calendars.format(question.gmtCreate,'yyyy-MM-dd hh:mm')}"></span>
                 </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
-                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 top-header"
+                     th:if="${!#lists.isEmpty(#httpServletRequest.getServletContext().getAttribute('HEADER'))}"
+                     th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('HEADER')}">
+                    <a th:href="${ad.url}" th:text="${ad.title}" target="_blank"
+                       style="color: #A00;font-weight: bold;"></a>
+                    <img src="/images/hot.png"/>
+                </div>
+
+                <!--内容-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                    <textarea style="display:none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("question-view", {});
+                    });
+                </script>
+
+
                 <!--标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
                     <span class="label label-info  question-tag"  th:each="tag:${question.tag.split(',')}">
@@ -144,7 +157,7 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>站长微信</h4>
-                <img class="img-thumbnail question-wechat" src="/img/weixin.jpg">
+                <img class="img-thumbnail question-wechat" src="/images/weixin.jpg">
             </div>
 
             <!--相关问题 -->
