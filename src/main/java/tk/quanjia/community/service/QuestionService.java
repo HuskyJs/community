@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.quanjia.community.dto.PaginationDTO;
 import tk.quanjia.community.dto.QuestionDTO;
+import tk.quanjia.community.dto.QuestionQueryDTO;
 import tk.quanjia.community.exception.CustomizeErrorCode;
 import tk.quanjia.community.exception.CustomizeException;
 import tk.quanjia.community.mapper.QuestionExtMapper;
@@ -17,6 +18,7 @@ import tk.quanjia.community.model.QuestionExample;
 import tk.quanjia.community.model.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,15 +38,27 @@ public class QuestionService {
      * @param size 当前页面数量
      * @return
      */
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));//字符串拼接
+        }
+
+
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount =(int) questionMapper.countByExample(new QuestionExample());
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
+
         paginationDTO.setPagination(totalCount, page, size);
         Integer currentPage = paginationDTO.getCurrentPage();
         Integer offset = size * (currentPage - 1);//起始索引
 
 
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questionList = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questionList) {
