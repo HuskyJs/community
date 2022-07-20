@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.quanjia.community.dto.CommentDTO;
-import tk.quanjia.community.exception.CommentTypeEnum;
+import tk.quanjia.community.enums.CommentTypeEnum;
 import tk.quanjia.community.exception.CustomizeErrorCode;
 import tk.quanjia.community.exception.CustomizeException;
 import tk.quanjia.community.mapper.*;

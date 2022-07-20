@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import tk.quanjia.community.dto.CommentDTO;
 import tk.quanjia.community.dto.QuestionDTO;
-import tk.quanjia.community.exception.CommentTypeEnum;
+import tk.quanjia.community.enums.CommentTypeEnum;
 import tk.quanjia.community.service.CommentService;
 import tk.quanjia.community.service.QuestionService;
 

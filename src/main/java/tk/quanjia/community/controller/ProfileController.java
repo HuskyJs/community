@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import tk.quanjia.community.dto.PaginationDTO;
 import tk.quanjia.community.model.User;
+import tk.quanjia.community.service.NotificationService;
 import tk.quanjia.community.service.QuestionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,9 @@ public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(
@@ -32,9 +36,13 @@ public class ProfileController {
         if("questions".equals(action)){
             model.addAttribute("section","questions");
             model.addAttribute("sectionName","我的提问");
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination",paginationDTO);
         }else if("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            model.addAttribute("pagination",paginationDTO);
         }
         PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
         model.addAttribute("pagination",paginationDTO);

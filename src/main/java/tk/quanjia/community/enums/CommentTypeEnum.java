@@ -1,4 +1,4 @@
-package tk.quanjia.community.exception;
+package tk.quanjia.community.enums;
 
 import java.util.Objects;
 

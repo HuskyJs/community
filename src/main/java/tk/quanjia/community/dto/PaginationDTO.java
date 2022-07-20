@@ -5,16 +5,19 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 展示页面下面的分页导航
+ */
 @Data
-public class PaginationDTO {
-    private List<QuestionDTO> questionDTOList;
+public class PaginationDTO<T> {
+    private List<T> data;
     private boolean showPrevious;
     private boolean showFirstPage;
     private boolean showNext;
     private boolean showEndPage;
     private Integer totalCount;
     private Integer currentPage;
-    private List<Integer> pagesList = new ArrayList<>();
+    private List<Integer> pagesList = new ArrayList<>();//存放所有的页
 
     /**
      * @param totalCount 问题列表  一共多少页

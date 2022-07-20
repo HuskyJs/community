@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import tk.quanjia.community.dto.CommentCreateDTO;
 import tk.quanjia.community.dto.CommentDTO;
 import tk.quanjia.community.dto.ResultDTO;
-import tk.quanjia.community.exception.CommentTypeEnum;
+import tk.quanjia.community.enums.CommentTypeEnum;
 import tk.quanjia.community.exception.CustomizeErrorCode;
 import tk.quanjia.community.model.Comment;
 import tk.quanjia.community.model.User;
 import tk.quanjia.community.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -32,7 +31,7 @@ public class CommentController {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
         if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())) {
-            return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_IS_EMPTY);
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
         }
 
         Comment comment = new Comment();
