@@ -7,10 +7,12 @@ import org.springframework.web.servlet.ModelAndView;
 import tk.quanjia.community.mapper.UserMapper;
 import tk.quanjia.community.model.User;
 import tk.quanjia.community.model.UserExample;
+import tk.quanjia.community.service.NotificationService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -18,6 +20,8 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -31,7 +35,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                             .andTokenEqualTo(token);
                     List<User> users = userMapper.selectByExample(userExample);
                     if (users.size() != 0) {//如果根据token去数据库查找对应用户，加入session中，实现页面登录
-                        request.getSession().setAttribute("user", users.get(0));
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", users.get(0));
+                        Long unreadCount = notificationService.unreadCount(users.get(0).getId());
+                        session.setAttribute("unreadCount", unreadCount);
                     }
                     break;
                 }

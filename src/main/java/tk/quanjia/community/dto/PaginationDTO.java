@@ -15,7 +15,7 @@ public class PaginationDTO<T> {
     private boolean showFirstPage;
     private boolean showNext;
     private boolean showEndPage;
-    private Integer totalCount;
+    private Integer totalPage;
     private Integer currentPage;
     private List<Integer> pagesList = new ArrayList<>();//存放所有的页
 
@@ -25,24 +25,24 @@ public class PaginationDTO<T> {
      * @param size       每一页一共 展示的问题数量
      */
     public void setPagination(Integer totalCount, Integer page, Integer size) {
-        Integer totalPage;
+        Integer totalPageNum;
         if (totalCount % size == 0) {
-            totalPage = totalCount / size;
+            totalPageNum = totalCount / size;
         } else {
-            totalPage = totalCount / size + 1;
+            totalPageNum = totalCount / size + 1;
         }
 
         if (page < 1) {
             page = 1;
         }
-        if (page > totalPage) {
-            page = totalPage;
+        if (page > totalPageNum) {
+            page = totalPageNum;
         }
         if (page == 0){
             page = 1;
         }
         this.currentPage = page;
-        this.totalCount = totalCount;
+        this.totalPage = totalCount;
 
         //当前页前面有三页
         int prePage = 3;
@@ -55,7 +55,7 @@ public class PaginationDTO<T> {
         pagesList.add(page);
         //当前页后面有三页
         int nextPage = 3;
-        for (int i = page + 1; i <= totalPage; i++) {
+        for (int i = page + 1; i <= totalPageNum; i++) {
             pagesList.add(i);
             if (--nextPage <= 0) {
                 break;
@@ -71,7 +71,7 @@ public class PaginationDTO<T> {
         }
 
         //是否展示最后一页
-        if (page.equals(totalPage)) {
+        if (page.equals(totalPageNum)) {
             showNext = false;
         } else {
             showNext = true;
@@ -85,7 +85,7 @@ public class PaginationDTO<T> {
         }
 
         //是否展示最后一页
-        if (pagesList.contains(totalPage)) {
+        if (pagesList.contains(totalPageNum)) {
             showEndPage = false;
         } else {
             showEndPage = true;

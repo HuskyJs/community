@@ -43,6 +43,7 @@ public class NotificationService {
         NotificationExample example = new NotificationExample();
         example.createCriteria()
                 .andReceiverEqualTo(userId);//查找所有通知的接收用户为userId的总数
+        example.setOrderByClause("gmt_create desc");//根据创建时间排序
         List<Notification> notifications = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         List<NotificationDTO> notificationDTOs = new ArrayList<>();
@@ -73,5 +74,13 @@ public class NotificationService {
         BeanUtils.copyProperties(notification,notificationDTO);
         notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
         return notificationDTO;
+    }
+
+    public Long unreadCount(Long userId) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(userId)
+                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
+        return notificationMapper.countByExample(notificationExample);
     }
 }
