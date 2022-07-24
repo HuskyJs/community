@@ -3,7 +3,7 @@ body {
 }
 
 .main {
-    background-color: white;
+    background-color: hsla(0,0%,98%,.8);
     margin: 30px;
 }
 
@@ -16,7 +16,7 @@ body {
 }
 
 .community-tag:hover {
-    background-color: #339dff;
+    background-color: hsla(0,0%,98%,.8);
     color: #fff !important;
     text-decoration-line: none;
 }
@@ -38,6 +38,31 @@ body {
 .btn-publish {
     float: right;
     margin-bottom: 15px;
+}
+.btn-saveDraft{
+    height: 35px;
+    margin-right: 16px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: #fc5531;
+    border: 1px solid #fc5531;
+    border-radius: 18px;
+    white-space: nowrap;
+    background-color: #fff;
+}
+.btn-articleSubmissionControl{
+    padding: 8px 32px 8px 0;
+}
+.btn-articlePublished{
+    margin-right: 15px;
+    height: 35px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    white-space: nowrap;
+    background: #fc5531;
 }
 
 .media-object {

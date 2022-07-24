@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发布问题</title>
+    <head th:insert="~{import :: head}"></head>
+    <head th:insert="~{import :: markdown}"></head>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">文章管理</span>
+                </button>
+                <a class="navbar-brand" href="/">文章管理</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left" id="articleTitle" action="/write" method="post">
+                    <!--题目-->
+                    <div class="form-group">
+                        <input type="text" class="form-control" th:value="${title}" id="title" name="title"
+                               autocomplete="off"
+                               placeholder="【无标题】">
+                    </div>
+                </form>
+                <ul class="nav navbar-nav navbar-right btn-articleSubmissionControl">
+                    <li>
+                        <button class="btn-saveDraft" onclick="">保存草稿</button>
+                    </li>
+                    <li>
+                        <button class="btn-articlePublished" onclick="submitArticle">发布</button>
+                    </li>
+                    <li th:if="${session.user != null}">
+                        <img class="media-object img-circle "
+                             th:src="${session.user.avatarUrl}" alt="" src="">
+                    </li>
+                </ul>
+                <script>
+                    function submitArticle() {
+                        var articleTitle = $("#articleTitle").val();
+                        var articleDT = $("#articleDT").val();
+                        articleTitle.submit();
+                        articleDT.submit();
+                    }
+                </script>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid main">
+    <form action="/publish" method="post" id="articleDT">
+        <input type="hidden" name="id" th:value="${id}">
+
+        <!--内容-->
+        <div class="form-group" id="question-editor" style="z-index: 2">
+            <label for="description">问题补充 (必填，请参照右侧提示):</label>
+            <textarea name="description" id="description" th:text="${description}" style="display:none;"
+                      class="form-control"
+                      cols="30"
+                      rows="10">
+                    </textarea>
+        </div>
+
+        <script type="text/javascript">
+            $(function () {
+                var editor = editormd("question-editor", {
+                    width: "100%",
+                    height: 350,
+                    path: "/js/lib/",
+                    delay: 0,
+                    watch: false,
+                    placeholder: "请输入问题描述",
+                    imageUpload: true,
+                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL: "/file/upload",
+                });
+            });
+        </script>
+        <!--标签-->
+        <div class="form-group">
+            <label for="tag">添加标签：</label>
+            <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                   autocomplete="off"
+                   placeholder="输入标签，以 , 隔开"
+                   onclick="showSelectTag()">
+            <div id="select-tag" class="publish-tag-tab">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                        th:class="${selectCategoryStat.first ? 'active':''}">
+                        <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                           data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                         th:each="selectCategory: ${tags}"
+                         th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                <span>
+                                    <span th:each="selectTag: ${selectCategory.tags}">
+                                    <span class="community-tag" onclick="selectTag(this)"
+                                          th:data-tag="${selectTag}"
+                                          th:text="${' '+selectTag}">
+                                    </span>
+                                </span>
+                                </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
