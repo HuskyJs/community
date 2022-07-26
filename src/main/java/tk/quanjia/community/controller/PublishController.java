@@ -16,6 +16,7 @@ import tk.quanjia.community.model.User;
 import tk.quanjia.community.service.QuestionService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.Session;
 
 @Controller
 public class PublishController {
@@ -67,7 +68,7 @@ public class PublishController {
             model.addAttribute("description", "简要不能为空");
             flag=true;
         }
-        if(description.length()>1024){
+        if(description.length()>10240000){
             model.addAttribute("description", "长度太大");
             flag=true;
         }

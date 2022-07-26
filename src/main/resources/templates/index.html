@@ -20,7 +20,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true">发现</span></h2>
             <hr>
-            <div class="media" th:each="question : ${pagination.data}">
+            <div class="media" th:each="question : ${pagination.getData()}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded"
@@ -31,7 +31,7 @@
                     <h4 class="media-heading">
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
                     </h4>
-                    <span th:text="${question.description}"></span> <br>
+                    <span class="index-question-description" th:text="${question.description}" maxlength="30"></span> <br>
                     <span class="text-desc">
                         <span th:text="${question.commentCount}"></span> 个回复 ●
                         <span th:text="${question.viewCount}"></span> 个浏览 ●
