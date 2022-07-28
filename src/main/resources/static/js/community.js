@@ -10,7 +10,44 @@ function post() {
     var content = $("#comment_content").val();
     comment2target(questionId, 1, content);
 }
-
+function questionSubmit(frm){
+    var title = frm.title;
+    var description = frm.description;
+    var tag = frm.tag;
+    var titleAlert = document.getElementById("title-alert");
+    var descriptionAlert = document.getElementById("description-alert");
+    var tagAlert = document.getElementById("tag-alert");
+    var flag = true;
+    if(title.value === ""){
+        titleAlert.style.display="block";
+        titleAlert.textContent="标题都不要了吗";
+        flag = false;
+    }else if(title.value>1024){
+        titleAlert.style.display="block";
+        titleAlert.textContent="标题太大了，喂！";
+        flag = false;
+    }
+    if(description.value === ""){
+        descriptionAlert.style.display="block";
+        descriptionAlert.textContent="简要不能为空，喂！";
+        flag = false;
+    }else if(description.value.length>10240000){
+        descriptionAlert.style.display="block";
+        descriptionAlert.textContent="搞什么，有必要写成一本书吗，喂！";
+        flag = false;
+    }
+    if(tag.value === ""){
+        tagAlert.style.display="block";
+        tagAlert.textContent="标签都不要了吗，喂！";
+        flag = false;
+    }else if(tag.value.length>1024){
+        tagAlert.style.display="block";
+        tagAlert.textContent="什么标签都要？，喂！";
+        flag = false;
+    }
+    debugger
+    return flag;
+}
 function comment2target(targetId, type, content) {
     if (!content) {
         alert("不能回复空内容~~~");
@@ -65,11 +102,11 @@ function collapseComments(e) {
     // 获取一下二级评论的展开状态
     const collapse = e.getAttribute("data-collapse");
     if (collapse) {
-        // 折叠二级评论
-        comments.removeClass("in");``
+        comments.removeClass("in");
         e.removeAttribute("data-collapse");
         e.classList.remove("active");
     } else {
+        // 折叠二级评论
         console.log("展开吗");
         const subCommentContainer = $("#comment-" + id);
         if (subCommentContainer.children().length !== 1) {
@@ -160,3 +197,4 @@ function selectTag(e) {
         $("#tag").val(value);
     }
 }
+

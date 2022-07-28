@@ -21,19 +21,24 @@
                     <input type="text" class="form-control" th:value="${title}" id="title" name="title"
                            autocomplete="off"
                            placeholder="问题标题是.....">
+                    <div class="alert alert-danger" role="alert" id="title-alert" style="display: none">...</div>
                 </div>
                 <!--内容-->
-                <div class="form-group" id="question-editor" style="z-index: 2">
-                    <label for="description">问题补充 (必填，请参照右侧提示):</label>
+                <div>
+                      <label for="description">问题补充 (必填，请参照右侧提示):</label>
+                </div>
+                <div class="form-group" id="question-description" style="z-index: 2">
                     <textarea name="description" id="description" th:text="${description}" style="display:none;"
                               class="form-control"
                               cols="30"
-                              rows="10"></textarea>
+                              rows="10">
+                    </textarea>
                 </div>
+                <div class="alert alert-danger" role="alert" id="description-alert" style="display: none">...</div>
 
                 <script type="text/javascript">
                     $(function () {
-                        var editor = editormd("question-editor", {
+                        var editor = editormd("question-description", {
                             width: "100%",
                             height: 350,
                             path: "/js/lib/",
@@ -76,6 +81,8 @@
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-danger" role="alert" id="tag-alert" style="display: none">...</div>
+                    <div class="alert alert-danger" role="alert" id="tag-alert2" th:if="${tagerror!=null}">输入非法标签</div>
                 </div>
 
                 <div class="container-fluid main">
@@ -83,7 +90,7 @@
                         <div th:if="${error != null}" class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12"
                              th:text="${error}"></div>
                         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                            <button type="submit" class="btn btn-success btn-publish">
+                            <button onclick="return questionSubmit(this.form)" type="submit" class="btn btn-success btn-publish">
                                 发布
                             </button>
                         </div>

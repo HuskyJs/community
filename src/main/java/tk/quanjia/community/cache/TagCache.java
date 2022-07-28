@@ -13,7 +13,7 @@ public class TagCache {
         ArrayList<TagDTO> tagDTOS = new ArrayList<>();
         TagDTO program = new TagDTO();
         program.setCategoryName("开发语言");
-        program.setTags(Arrays.asList("javascript", "php", "css", "html", "html5", "java", "node.js", "python", "c++", "c", "golang", "objective-c", "typescript", "shell", "swift", "c#", "sass", "ruby", "bash", "less", "asp.net", "lua", "scala", "coffeescript", "actionscript", "rust", "erlang", "perl"));
+        program.setTags(Arrays.asList("java","c++", "c", "python","javascript", "php", "css", "html", "html5",  "node.js",  "golang", "objective-c", "typescript", "shell", "swift", "c#", "sass", "ruby", "bash", "less", "asp.net", "lua", "scala", "coffeescript", "actionscript", "rust", "erlang", "perl"));
         tagDTOS.add(program);
 
         TagDTO framework = new TagDTO();
@@ -36,6 +36,12 @@ public class TagCache {
         tool.setCategoryName("开发工具");
         tool.setTags(Arrays.asList("git", "github", "visual-studio-code", "vim", "sublime-text", "xcode intellij-idea", "eclipse", "maven", "ide", "svn", "visual-studio", "atom emacs", "textmate", "hg"));
         tagDTOS.add(tool);
+
+        TagDTO network = new TagDTO();
+        network.setCategoryName("基础知识");
+        network.setTags(Arrays.asList("计算机网络", "操作系统", "数据结构"));
+        tagDTOS.add(network);
+
         return tagDTOS;
     }
     public static String filterInvalid(String tags){

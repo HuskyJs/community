@@ -56,33 +56,9 @@ public class PublishController {
         model.addAttribute("tags", TagCache.get());
 
         boolean flag = false;
-        if(title == null || title.equals("")){
-            model.addAttribute("title", "标题不能为空");
-            flag=true;
-        }
-        if(title.length()>1024){
-            model.addAttribute("title", "长度太大");
-            flag=true;
-        }
-        if(description == null || description.equals("")){
-            model.addAttribute("description", "简要不能为空");
-            flag=true;
-        }
-        if(description.length()>10240000){
-            model.addAttribute("description", "长度太大");
-            flag=true;
-        }
-        if(tag == null || tag.equals("")){
-            model.addAttribute("tag", "标签不能为空");
-            flag=true;
-        }
-        if(tag.length()>1024){
-            model.addAttribute("tag", "长度太大");
-            flag=true;
-        }
         String invalid = TagCache.filterInvalid(tag);
         if(StringUtils.isNotBlank(invalid)){
-            model.addAttribute("tag", "输入非法标签:" + invalid);
+            model.addAttribute("tagerror", "输入非法标签:" + invalid);
             flag=true;
         }
         if(flag){

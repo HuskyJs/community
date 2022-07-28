@@ -9,22 +9,24 @@ import tk.quanjia.community.dto.PaginationDTO;
 import tk.quanjia.community.service.QuestionService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller //我允许当前的类接收前端请求
 public class IndexController {
     @Autowired
     private QuestionService questionService;
 
-    @GetMapping("/")    //  "/"代表默认启动模板
-    public String index(HttpServletRequest request,
-                        Model model,
-                        @RequestParam(name="page",defaultValue = "1") Integer page,
-                        @RequestParam(name="size",defaultValue = "5") Integer size,
-                        @RequestParam(name="search",required  = false) String search
-                        ) {
-        PaginationDTO pagination = questionService.list(search,page,size); //QuestionDTO  为Question对象中加入user成员，成为一个新的对象
+    @GetMapping("/")
+    public String index(Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "10") Integer size,
+                        @RequestParam(name = "search", required = false) String search,
+                        @RequestParam(name = "tag", required = false) String tag,
+                        @RequestParam(name = "sort", required = false) String sort) {
+        PaginationDTO pagination = questionService.list(search, page, size);
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
+        model.addAttribute("tag", tag);
         return "index";
     }
 }
