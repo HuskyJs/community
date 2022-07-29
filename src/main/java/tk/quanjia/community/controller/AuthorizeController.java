@@ -31,7 +31,6 @@ public class AuthorizeController {
     private String redirectUri;
     @Autowired
     private UserService userService;
-
     /**
      * 如果用户接受您的请求，GitHub 将重定向回您的站点，
      * 其中，代码参数为临时 code，state 参数为您在上一步提供的状态。
