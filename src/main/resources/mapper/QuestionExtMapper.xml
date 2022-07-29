@@ -69,4 +69,10 @@
     </where>
     order by gmt_create desc limit #{page},#{size}
   </select>
+
+  <delete id="deleteQuestion" parameterType="tk.quanjia.community.model.Question">
+    delete
+    from TABLE_QUESTION
+    where ID = #{id}
+  </delete>
 </mapper>

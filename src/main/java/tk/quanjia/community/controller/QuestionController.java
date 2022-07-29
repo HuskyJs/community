@@ -38,4 +38,17 @@ public class QuestionController {
         model.addAttribute("relatedQuestions",relatedQuestions);
         return "question";
     }
+
+    @GetMapping("/publish/delete/{id}")
+    public String questionDelete(@PathVariable(name="id") Long id,
+                           Model model){
+        //删除文章
+        questionService.deleteById(id);
+
+        //删除回复
+        commentService.deleteAllRelated(id);
+
+        //删除完返回首页
+        return "redirect:/";
+    }
 }

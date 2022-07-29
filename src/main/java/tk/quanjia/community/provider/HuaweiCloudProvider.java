@@ -77,7 +77,7 @@ public class HuaweiCloudProvider {
         request.setProgressInterval(1024 * 1024L);
         obsClient.putObject(request);
 
-        long expireSeconds = 3600L * 24 * 365;
+        long expireSeconds =(3600 * 24 * 365);
 
         TemporarySignatureRequest requestDown = new TemporarySignatureRequest(HttpMethodEnum.GET, expireSeconds);
         requestDown.setBucketName(bucketName);

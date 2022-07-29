@@ -1,0 +1,1 @@
+alter table table_user add password varchar(20);

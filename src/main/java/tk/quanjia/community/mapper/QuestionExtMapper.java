@@ -13,4 +13,6 @@ public interface QuestionExtMapper {
     Integer countBySearch(QuestionQueryDTO questionQueryDTO);
 
     List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
+
+    int deleteQuestion(Question row);
 }

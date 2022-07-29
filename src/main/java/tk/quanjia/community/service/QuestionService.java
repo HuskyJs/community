@@ -147,6 +147,10 @@ public class QuestionService {
         }
     }
 
+
+
+
+
     /**
      * 实现阅读数加1
      *          存在并发操作的问题  .... 留坑以后解决
@@ -182,5 +186,14 @@ public class QuestionService {
             return questionDTO;
         }).collect(Collectors.toList());
         return questionDTOS;
+    }
+
+    /**
+     * 删除当前 id 的问题
+     * @param id
+     */
+    public void deleteById(Long id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        questionExtMapper.deleteQuestion(question);
     }
 }

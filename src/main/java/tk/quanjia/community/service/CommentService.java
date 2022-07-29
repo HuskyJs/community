@@ -121,8 +121,9 @@ public class CommentService {
 
     /**
      * 得到所有的评论
-     * @param id
-     * @param type 评论的类型  1：问题   2：评论
+     * @param id   父亲id
+     * @param type 评论的类型  1:对文章本身的评论，也就是1级评论
+     *                       2：对评论的评论，也就是二级评论
      * @return
      */
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
@@ -158,5 +159,24 @@ public class CommentService {
         }).collect(Collectors.toList());
 
         return commentDTOS;
+    }
+
+    /**
+     * 删除当前页面下所有人的评论
+     * @param id
+     */
+    public void deleteAllRelated(Long id) {
+        //id 为1级评论人的父母id
+        List<CommentDTO> FirstCommentDTOS = listByTargetId(id, CommentTypeEnum.QUESTION);//所有的一级评论
+
+        for (CommentDTO firstCommentDTO:
+                FirstCommentDTOS) {
+            //commentDTO.getId()得到一级评论的id，其为二级评论的父id
+            List<CommentDTO> SecondCommentDTOS = listByTargetId(firstCommentDTO.getId(), CommentTypeEnum.COMMENT);
+            for (CommentDTO secondCommentDTO : SecondCommentDTOS){
+                commentExtMapper.deleteRelatedComment(secondCommentDTO);
+            }
+            commentExtMapper.deleteRelatedComment(firstCommentDTO);
+        }
     }
 }

@@ -23,4 +23,9 @@
       COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
   </update>
+
+  <delete id="deleteRelatedComment" parameterType="tk.quanjia.community.dto.CommentDTO">
+    delete from TABLE_COMMENT
+    where id = #{id}
+  </delete>
 </mapper>
