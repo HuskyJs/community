@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发布问题</title>
+    <head th:insert="~{import :: head}"></head>
+</head>
+<body>
+<div class="container-fluid main">
+    <form action="/user/regist" method="post">
+        用户名:<input name="username" type="text"/><br>
+        密码:<input name="password" type="password"> <br>
+        <input type="submit" value="登录">
+        <br>
+        <a th:href="@{https://github.com/login/oauth/authorize(client_id='1b08a10a55c9cfa9e6f3',redirect_uri=${url+'callback'},scope='user',state=1)}">
+            GitHub登录
+        </a>
+
+    </form>
+</div>
+</body>
+</html>
