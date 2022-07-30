@@ -2,16 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>登录</title>
+    <head th:insert="~{import :: head}"></head>
 </head>
 <body>
 
 <div class="container-fluid main">
-    <form action="regist" method="post">
-        用户名:<input name="username" type="text"/><br>
+    <form action="/login/registOK" method="post">
+        用户名:<input id="username" name="username" type="text"/>
+        <span th:if="${registError!= null}" th:text="${registError}"></span>
+        <br>
+        账号:<input id="accountId" name="accountId" type="text"/><br>
         密码:<input name="password" type="password"> <br>
-        <input type="submit" value="注册">
+        <input type="submit" value="注册" >
     </form>
+
 </div>
-<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

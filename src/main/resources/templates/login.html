@@ -6,16 +6,26 @@
 </head>
 <body>
 <div class="container-fluid main">
-    <form action="/user/regist" method="post">
-        用户名:<input name="username" type="text"/><br>
-        密码:<input name="password" type="password"> <br>
-        <input type="submit" value="登录">
+    <form action="/login" method="post">
+        账号:<input name="accountId" type="text"/><br>
+        密码:<input name="password" type="password">
+        <span th:if="${loginError!= null}" th:text="${loginError}"></span>
         <br>
+        <input type="submit" value="登录">
+    </form>
+
+
+    <br>
+    <div>
+        <a href="/login/regist">注册</a>
+    </div>
+    <br>
+    <div>
+
         <a th:href="@{https://github.com/login/oauth/authorize(client_id='1b08a10a55c9cfa9e6f3',redirect_uri=${url+'callback'},scope='user',state=1)}">
             GitHub登录
         </a>
-
-    </form>
+    </div>
 </div>
 </body>
 </html>

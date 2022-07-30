@@ -198,3 +198,67 @@ function selectTag(e) {
     }
 }
 
+
+function username(){
+    console.log('用户名可用!')
+    alert('用户名可用!');
+    return false;
+    debugger
+    // var regex=/\w*/;
+    //
+    // var username =document.getElementById('username').value;
+    //
+    // var a=regex.exec(username);
+    //
+    // if(a !== ""){
+    //
+    // alert('用户名可用!');
+    //
+    // }else{
+    //
+    // alert('有非法字符');
+    //
+    //
+    // }
+}
+
+function postSetting(){
+    var accountId = $("#setting_accountId").val();
+    var username = $("#username").val();
+    console.log(accountId);
+    console.log(username);
+
+    if (!username) {
+        alert("用户名不能为空");
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/setting",
+        contentType: 'application/json',
+        data: JSON.stringify({
+            "accountId": accountId,
+            "username": username,
+        }),
+        success: function (response) {
+            if (response.code === 200) {
+                window.location.reload();
+            } else {
+                if (response.code === 2003) {
+                    var isAccepted = confirm(response.message);
+                    if (isAccepted) {
+                        $('#myModal').modal({});
+                        // window.open("https://github.com/login/oauth/authorize?client_id=7f316909bf70d1eaa2b2&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        // window.localStorage.setItem("closable", true);
+                    }
+                } else {
+                    alert(response.message);
+                }
+            }
+        },
+        dataType: "json"
+    });
+
+    debugger
+}

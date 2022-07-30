@@ -13,12 +13,16 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 创建或者跟新一个账户
+     * @param user
+     */
     public void createOrUpdate(User user) {
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andAccountIdEqualTo(user.getAccountId());
         List<User> users = userMapper.selectByExample(userExample);
-        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+//        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
         if (users.size() == 0) {
             //插入
             user.setGmtCreate(System.currentTimeMillis());

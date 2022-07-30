@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <head th:insert="~{import :: head}"></head>
+</head>
+<body>
+<div th:insert="navigation :: nav"></div>
+<div class="container-fluid main profile">
+    <form action="/login" method="post">
+        <input id="setting_accountId" th:value="${session.user.getAccountId()}">
+<!--        <input type="hidden" id="setting_accountId" th:value="${session.user.getAccountId()}">-->
+        用户名:<input id="username" name="username" type="text" th:value="${session.user.getName()}"/><br>
+        <button th:text="更新" onclick="postSetting()"></button>
+    </form>
+</div>
+</body>
+</html>
