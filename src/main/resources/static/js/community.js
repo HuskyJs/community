@@ -64,8 +64,6 @@ function comment2target(targetId, type, content) {
             "type": type
         }),
         success: function (response) {
-            console.log("看数据喽")
-            console.log(this.data)
             debugger
             if (response.code === 200) {
                 window.location.reload();
@@ -107,21 +105,15 @@ function collapseComments(e) {
         e.classList.remove("active");
     } else {
         // 折叠二级评论
-        console.log("展开吗");
         const subCommentContainer = $("#comment-" + id);
         if (subCommentContainer.children().length !== 1) {
-            console.log("打印？？？？")
             //展开二级评论
             comments.addClass("in");
             // 标记二级评论展开状态
             e.setAttribute("data-collapse", "in");
             e.classList.add("active");
         } else {
-            console.log("这是什么东西");
             $.getJSON("/comment/" + id, function (data) {
-
-                console.log("！！！什");
-                console.log(data.data);
                 $.each(data.data.reverse(), function (index, comment) {
                     const mediaLeftElement = $("<div/>", {
                         "class": "media-left"
