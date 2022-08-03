@@ -21,6 +21,31 @@ body {
     width: 260px;/*设置显示的最大宽度*/
     display:inline-block;
 }
+
+
+
+#container {
+    position: absolute;
+    margin: auto;
+    width: 100vw;
+    height: 80pt;
+    top: 0;
+    bottom: 0;
+}
+
+#text1, #text2 {
+    position: absolute;
+    width: 100%;
+    display: inline-block;
+    font-size: 80pt;
+    text-align: center;
+    user-select: none;
+}
+#container {
+...
+filter: url(#threshold) blur(0.6px);
+}
+
 .community-tag:hover {
     background-color: #339dff;
     color: #fff !important;
@@ -84,6 +109,7 @@ body {
 }
 
 .question-wechat {
+    float: left;
     width: 50%;
 }
 

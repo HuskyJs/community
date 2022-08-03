@@ -5,9 +5,9 @@
     <head th:insert="~{import :: head}"></head>
 </head>
 <script type="application/javascript">
-    window.onload = function (){//页面加载完成时去校验
+    window.onload = function () {//页面加载完成时去校验
         var closable = window.localStorage.getItem("closable");
-        if(closable === "true"){
+        if (closable === "true") {
             window.close();
             window.localStorage.removeItem("closable");
         }
@@ -20,7 +20,8 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true">发现</span></h2>
             <hr>
-            <div class="media"  th:if="${pagination != null && pagination.data !=null}"  th:each="question : ${pagination.data}">
+            <div class="media" th:if="${pagination != null && pagination.data !=null}"
+                 th:each="question : ${pagination.data}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded"
@@ -31,7 +32,8 @@
                     <h4 class="media-heading">
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
                     </h4>
-                    <span class="index-question-description" th:text="${question.description}" maxlength="30"></span> <br>
+                    <span class="index-question-description" th:text="${question.description}" maxlength="30"></span>
+                    <br>
                     <span class="text-desc">
                         <span th:text="${question.commentCount}"></span> 个回复 ●
                         <span th:text="${question.viewCount}"></span> 个浏览 ●
@@ -72,12 +74,33 @@
         </div>
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
-            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
-            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料 <br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字 <br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+            </div>
+
+            <!--这是微信号 -->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <img class="img-thumbnail question-wechat" src="/images/husky.png">
+                <img class="img-thumbnail question-wechat" src="/images/weixin.jpg">
+
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span class="glyphicon glyphicon-heart" aria-hidden="true"> 一个分享知识交流的小社区</span>
+                 <br>
+                <br>
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"> 可以在这里分享你的知识见解，可以与其他社区伙伴讨论</span>
+                 <br>
+                <br>
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"> 你收到的所有消息都会在通知栏提示</span>
+                 <br>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            </div>
         </div>
     </div>
+
 </div>
+
 </body>
 </html>
