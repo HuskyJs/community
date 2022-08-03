@@ -54,7 +54,6 @@ public class AuthorizeController {
 
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        System.out.println(githubUser.getName());
         if (githubUser.getId() != null) {
             User user = new User();
             String token = UUID.randomUUID().toString();
@@ -65,7 +64,6 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
-            System.out.println("---------------------");
             response.addCookie(new Cookie("token", token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
             //登录成功  写cookie 和 session
             request.getSession().setAttribute("user", githubUser);
@@ -75,9 +73,10 @@ public class AuthorizeController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response){
-        request.getSession().removeAttribute("user");
+        request.getSession().invalidate();
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
+        cookie.setPath("/");
         response.addCookie(cookie);
         return "redirect:/";
     }

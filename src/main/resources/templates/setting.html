@@ -2,17 +2,161 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${sectionName}"></title>
+
+    <link rel="stylesheet" href="/css/loginRegistCss/style.css">
+    <link rel="stylesheet" href="/css/loginRegistCss/base.css">
+    <link rel="stylesheet" href="/css/loginRegistCss/login.css"/>
+
+    <script src="/js/loginRegistJs/jquery.min.js"></script>
+    <script src="/js/loginRegistJs/particles.min.js"></script>
+    <script src="/js/loginRegistJs/app.js"></script>
+    <script src="/js/loginRegistJs/stats.js"></script>
     <head th:insert="~{import :: head}"></head>
 </head>
+
 <body>
+
 <div th:insert="navigation :: nav"></div>
-<div class="container-fluid main profile">
-    <form action="/login" method="post">
-        <input id="setting_accountId" th:value="${session.user.getAccountId()}">
-<!--        <input type="hidden" id="setting_accountId" th:value="${session.user.getAccountId()}">-->
-        用户名:<input id="username" name="username" type="text" th:value="${session.user.getName()}"/><br>
-        <button th:text="更新" onclick="postSetting()"></button>
+<!--<div id="particles-js"></div>-->
+<div th:if="${session.user!=null}" id="wrapper">
+    <div>
+        <h2>哈士奇社区</h2>
+    </div>
+
+<form>
+        <input id="userid" name="userid" type="text" th:value="${session.user.id}" hidden="hidden"/><br>
+
+        <li>
+             <a><img class="settings-img" th:src="${session.user.avatarUrl}"></a>
+        </li>
+        <ul class="group_input">
+            <li>
+                用户名：<input type="text" th:value="${session.user.name}" name="username" class="name required"
+                           id="username" autocomplete="off"/>
+            </li>
+        </ul>
+        <button type="submit" class="submit_btn" id="btnSubmit">更新</button>
     </form>
+
 </div>
+
+<!-- <script src="../assets/libs/particles/js/lib/stats.js"></script> -->
+<!--<script>-->
+<!--    var count_particles,stats, update;-->
+<!--    stats = new Stats;-->
+<!--    stats.setMode(0);-->
+<!--    stats.domElement.style.position = 'absolute';-->
+<!--    stats.domElement.style.left = '0px';-->
+<!--    stats.domElement.style.top = '0px';-->
+<!--    document.body.appendChild(stats.domElement);-->
+<!--    count_particles = document.querySelector('.js-count-particles');-->
+<!--    update = function() {-->
+<!--        stats.begin();-->
+<!--        stats.end();-->
+<!--        if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {-->
+<!--            count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;-->
+<!--        }-->
+<!--        requestAnimationFrame(update);-->
+<!--    };-->
+<!--    requestAnimationFrame(update);-->
+<!--</script>-->
+<script>
+    $(function () {
+        //为表单的必填文本框添加提示信息（选择form中的所有后代input元素）
+        // $("form :input.required").each(function () {
+        //     //通过jquery api：$("HTML字符串") 创建jquery对象
+        //     var $required = $("<strong class='high'>*</strong>");
+        //     //添加到this对象的父级对象下
+        //     $(this).parent().append($required);
+        // });
+        // var errorMsg = $(".error-msg").text();
+        //为表单元素添加失去焦点事件
+        $("form :input").blur(function () {
+            var $parent = $(this).parent();
+            $parent.find(".msg").remove(); //删除以前的提醒元素（find()：查找匹配元素集中元素的所有匹配元素）
+            //验证姓名
+            if ($(this).is("#username")) {
+                var nameVal = $.trim(this.value);
+                var regName = /[~#^$@%&!*()<>:;'"{}【】  ]/;
+                if (nameVal == "" || nameVal.length < 2 || regName.test(nameVal)) {
+                    var errorMsg = " 用户名，长度2-20位，不包含特殊字符！";
+                    $parent.append("<span class='msg onError'>" + errorMsg + "</span>");
+                } else {
+                    var okMsg = " 输入正确";
+                    $parent.append("<span class='msg onSuccess'>" + okMsg + "</span>");
+                }
+            }
+        }).keyup(function () {
+            //triggerHandler 防止事件执行完后，浏览器自动为标签获得焦点
+            $(this).triggerHandler("blur");
+        }).focus(function () {
+            $(this).triggerHandler("blur");
+        });
+
+
+        // $("#btnSubmit").click(function(){
+        // 	//trigger 事件执行完后，浏览器会为submit按钮获得焦点
+        // 	$("form .required:input").trigger("blur");
+        //
+        // 	var numError = $("onError").val;
+        // 	if(numError != null){
+        // 		alert('更新失败！')
+        // 		return false;
+        // 	}
+        // 	alert('成功！')
+        //
+        // });
+    })
+
+</script>
+
+<script type="text/javascript">
+    let fileInput = document.getElementById('file');
+    let info = document.getElementById('info');
+    let preview = document.getElementById('image-preview');
+    // 监听change事件:
+    fileInput.addEventListener('change', function () {
+        // 清除背景图片:
+        preview.style.backgroundImage = '';
+        if (!fileInput.value) {
+            info.innerHTML = '没有选择文件';
+            return;
+        }
+        let file = fileInput.files[0];
+        let size = file.size;
+        if (size >= 1 * 1024 * 1024) {
+            alert('文件大小超出限制');
+            info.innerHTML = '文件大小超出限制';
+            return false;
+        }
+        // 获取File信息:
+        // info.innerHTML = `文件名称:  + ${file.name}<br>文件大小: ${file.size} <br>上传时间: ${file.lastModifiedDate}`;
+        if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+            alert('不是有效的图片文件!');
+            return;
+        }
+        // 读取文件:
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let data = e.target.result;
+            // console.log(preview, 'a标签')
+            preview.src = data
+        };
+        // 以DataURL的形式读取文件:
+        reader.readAsDataURL(file);
+        console.log("打印文件")
+        console.log(reader.);
+    });
+
+    // function save() {
+    //
+    //     var url = preview.src; // 获取图片地址
+    //     var a = document.createElement('a'); // 创建一个a节点插入的document
+    //     var event = new MouseEvent('click') // 模拟鼠标click点击事件
+    //     a.download = 'beautifulGirl' // 设置a节点的download属性值
+    //     a.href = url; // 将图片的src赋值给a节点的href
+    //     a.dispatchEvent(event)
+    // }
+</script>
 </body>
 </html>

@@ -214,12 +214,14 @@ function username(){
     // }
 }
 
-function postSetting(){
-    var accountId = $("#setting_accountId").val();
+function postSetting(e){
     var username = $("#username").val();
-    console.log(accountId);
+    var user = e;
+    debugger
+    console.log(user.id);
     console.log(username);
 
+    debugger
     if (!username) {
         alert("用户名不能为空");
         return;
@@ -228,22 +230,24 @@ function postSetting(){
     $.ajax({
         type: "POST",
         url: "/setting",
-        contentType: 'application/json',
+        contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
         data: JSON.stringify({
-            "accountId": accountId,
-            "username": username,
+            // "id": user.id,
+            "name": user.name,
+            // "avatarUrl":user.avatarUrl,
+            // "accountId": user.accountId
         }),
         success: function (response) {
             if (response.code === 200) {
                 window.location.reload();
             } else {
                 if (response.code === 2003) {
-                    var isAccepted = confirm(response.message);
-                    if (isAccepted) {
-                        $('#myModal').modal({});
-                        // window.open("https://github.com/login/oauth/authorize?client_id=7f316909bf70d1eaa2b2&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
-                        // window.localStorage.setItem("closable", true);
-                    }
+                    // var isAccepted = confirm(response.message);
+                    // if (isAccepted) {
+                    //     $('#myModal').modal({});
+                    //     // window.open("https://github.com/login/oauth/authorize?client_id=7f316909bf70d1eaa2b2&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                    //     // window.localStorage.setItem("closable", true);
+                    // }
                 } else {
                     alert(response.message);
                 }
@@ -251,6 +255,4 @@ function postSetting(){
         },
         dataType: "json"
     });
-
-    debugger
 }

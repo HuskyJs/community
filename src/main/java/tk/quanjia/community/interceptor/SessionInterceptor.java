@@ -1,5 +1,6 @@
 package tk.quanjia.community.interceptor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,19 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Value("${github.redirect.uri}")
     private String githubRedirectUri;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        request.getServletContext().setAttribute("githubRedirectUri",githubRedirectUri);
+        request.getServletContext().setAttribute("githubRedirectUri", githubRedirectUri);
         Cookie[] cookies = request.getCookies();
+
+
+
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie :
                     cookies) {
-                if (cookie.getName().equals("token")) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
+                if (cookie.getName().equals("token") && StringUtils.isNotBlank(cookie.getValue())) {//先从Cookie中寻找是否有 “token” 关键字，有则代表存在已经登录的用户
+
                     String token = cookie.getValue();
                     UserExample userExample = new UserExample();
                     userExample.createCriteria()

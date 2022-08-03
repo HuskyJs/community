@@ -25,6 +25,8 @@ public class FileController {
     public FileDTO upload(HttpServletRequest request) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("editormd-image-file");
+        System.out.println("文件为："+ file.getOriginalFilename());
+        assert 0==0;
         try {
             HFileResult hFileResult = huaweiCloudProvider.upload(file.getInputStream(), file.getContentType(), file.getOriginalFilename());//上传文件
             FileDTO fileDTO = new FileDTO();
