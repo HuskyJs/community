@@ -42,8 +42,6 @@ public class LoginRegistController {
                         HttpServletRequest request,
                         HttpServletResponse response,
                         Model model) {
-        System.out.println("-------------登录----------");
-
         if (accountId == null || accountId.equals("") || password == null || password.equals("")) {
             return "login";
         }
@@ -52,7 +50,7 @@ public class LoginRegistController {
                 .andAccountIdEqualTo(accountId);
         List<User> users = userMapper.selectByExample(userExample);
 
-        if(users.isEmpty()){
+        if(users.size()==0){
             model.addAttribute("loginError", "账号不存在");
             return "login";
         }
@@ -64,11 +62,6 @@ public class LoginRegistController {
 
         if (user.getPassword().equals(password)) {
             // 登录成功
-            System.out.println("---------------------");
-            System.out.println("1：" +user.getToken());
-            System.out.println("2：" +user.getAccountId());
-            System.out.println("3：" +user.getName());
-            System.out.println("4：" +user.getId());
             response.addCookie(new Cookie("token", user.getToken()));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
             // 登录成功  写cookie 和 session
             request.getSession().setAttribute("user", user);
@@ -79,23 +72,33 @@ public class LoginRegistController {
         }
     }
 
-    @GetMapping("/login/regist")
+    @GetMapping("regist")
     public String loginToRegister() {
         return "regist";
     }
 
-    @PostMapping("/login/registOK")
+    @PostMapping("registOK")
     public String register(@RequestParam(name = "username", required = false) String username,
                            @RequestParam(name = "accountId", required = false) String accountId,
                            @RequestParam(name = "password", required = false) String password,
                            HttpServletRequest request,
                            HttpServletResponse response,
                            Model model) {
-        System.out.println("注册");
         if (accountId == null || accountId.equals("")) {
             model.addAttribute("registError", "输入为空");
             return "regist";
         }
+
+        UserExample userNameExample = new UserExample();
+        userNameExample.createCriteria()
+                .andNameEqualTo(username);
+        List<User> userName = userMapper.selectByExample(userNameExample);
+        if (userName.size()!=0) {
+            model.addAttribute("registError", "该用户名已存在，你可以换一个");
+            return "regist";
+        }
+
+
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andAccountIdEqualTo(accountId);
@@ -113,11 +116,7 @@ public class LoginRegistController {
         user.setGmtCreate(System.currentTimeMillis());
         user.setGmtModified(user.getGmtCreate());
         user.setAvatarUrl("https://myimg-rqj.obs.cn-east-3.myhuaweicloud.com:443/3feac0fab03a4ffba467123fd9d146ed.jpg?AccessKeyId=JOTO9PWRAB5RZRIWEKEQ&Expires=1690742673&Signature=RYNgsb%2F2h2Pt1tN8WphJzea0Qmo%3D");
-
-        System.out.println("---------------------");
-        response.addCookie(new Cookie("token", token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
-        //登录成功  写cookie 和 session
-        request.getSession().setAttribute("user", user);
+        userService.createOrUpdate(user);
         return "login";
     }
 

@@ -18,7 +18,7 @@
 			<h2>哈士奇社区</h2>
 		</div>
 		<nav class="switch_nav">
-			<a href="/login/regist" id="switch_signup" class="switch_btn">注册</a>
+			<a href="/regist" id="switch_signup" class="switch_btn">注册</a>
 			<a href="javascript:;" id="switch_login" class="switch_btn on">登陆</a>
 			<div class="switch_bottom" id="switch_bottom"></div>
 		</nav>
@@ -26,7 +26,7 @@
 			<form action="/login" method="post">
 				<ul class="group_input">
 					<li>
-						<input type="text" class="mobile required" name="accountId" id="mobile" placeholder="账号密码"/>
+						<input type="text" class="mobile required" name="accountId" id="mobile" placeholder="账号密码" autocomplete="off"/>
 					</li>
 					<li>
 						<input type="password" class="psd required" name="password" id="psd" placeholder="密码" autocomplete="off"/>
@@ -40,13 +40,15 @@
                         <a href="https://github.com/login/oauth/authorize?client_id=1b08a10a55c9cfa9e6f3&redirect_uri=http://localhost:9999/callback&scope=user&state=1">
 
 <!--					<a th:href="@{https://github.com/login/oauth/authorize(client_id='1b08a10a55c9cfa9e6f3',redirect_uri=${url+'callback'},scope='user',state=1)}">-->
-						Github登录
+						Gihub登录
 					</a>
 				</span>
 				<span class="right"><a href="javascript:;">无法登陆？</a></span>
 
 				<br>
-				<span th:text="${url}"></span>
+			</div>
+			<div>
+				<h2>推荐使用GitHub登录</h2>
 			</div>
 		</div>
 	</div>

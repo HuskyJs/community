@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <title>注册</title>
@@ -27,7 +27,7 @@
         <a href="/login/" id="switch_login" class="switch_btn">登陆</a>
         <div class="switch_bottom" id="switch_bottom"></div>
     </nav>
-    <form action="/login/registOK" method="post">
+    <form action="/registOK" method="post">
         <ul class="group_input">
             <li>
                 <input type="text" placeholder="用户名" name = "username" class="name required" id="name" autocomplete="off"/>
@@ -39,6 +39,7 @@
                 <input type="password" placeholder="密码(不少于6位)" name = "password" class="psd required" id="psd" autocomplete="off"/>
             </li>
         </ul>
+        <span th:text="${registError}" id="registError"></span>
         <button type="submit" class="submit_btn" id="btnSubmit" >注册</button>
     </form>
 

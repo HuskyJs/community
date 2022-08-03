@@ -64,10 +64,21 @@ public class UserSettingController {
     public String Setting(@RequestParam(name="userid") Long  userid,
                           @RequestParam(name="username") String  username,
                        HttpServletRequest request,
-                       HttpServletResponse response) {
+                       Model model) {
         if(username.equals("")){
+            model.addAttribute("settingError", "用户名不能为空");
             return "setting";
         }
+
+        UserExample userNameExample = new UserExample();
+        userNameExample.createCriteria()
+                .andNameEqualTo(username);
+        List<User> userName = userMapper.selectByExample(userNameExample);
+        if (userName.size()!=0) {
+            model.addAttribute("settingError", "该用户名已存在，你可以换一个");
+            return "setting";
+        }
+
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andIdEqualTo(userid);
@@ -76,20 +87,6 @@ public class UserSettingController {
         user.setName(username);
         user.setGmtModified(System.currentTimeMillis());
 //        user.setAvatarUrl("https://myimg-rqj.obs.cn-east-3.myhuaweicloud.com:443/3feac0fab03a4ffba467123fd9d146ed.jpg?AccessKeyId=JOTO9PWRAB5RZRIWEKEQ&Expires=1690742673&Signature=RYNgsb%2F2h2Pt1tN8WphJzea0Qmo%3D");
-
-
-        System.out.println("能上传吗");
-        //上传头像
-
-//        System.out.println("能上传吗");
-//        System.out.println("能上传吗");
-//        System.out.println(file);
-//        try {
-//            HFileResult hFileResult = huaweiCloudProvider.upload(file.getInputStream(), file.getContentType(), file.getOriginalFilename());//上传文件
-//            user.setAvatarUrl(hFileResult.getFileUrl());
-//        } catch (Exception e) {
-//            System.out.println("上传失败");
-//        }
         userService.createOrUpdate(user);
         System.out.println("---------------------");
         //登录成功  写cookie 和 session

@@ -23,11 +23,11 @@
         <h2>哈士奇社区</h2>
     </div>
 
-<form>
+    <form action="/setting" method="post">
         <input id="userid" name="userid" type="text" th:value="${session.user.id}" hidden="hidden"/><br>
 
         <li>
-             <a><img class="settings-img" th:src="${session.user.avatarUrl}"></a>
+            <a><img class="settings-img" th:src="${session.user.avatarUrl}"></a>
         </li>
         <ul class="group_input">
             <li>
@@ -35,6 +35,7 @@
                            id="username" autocomplete="off"/>
             </li>
         </ul>
+        <span th:text="${settingError}" id="settingError"></span>
         <button type="submit" class="submit_btn" id="btnSubmit">更新</button>
     </form>
 
