@@ -26,7 +26,7 @@
 			<form action="/login" method="post">
 				<ul class="group_input">
 					<li>
-						<input type="text" class="mobile required" name="accountId" id="mobile" placeholder="账号密码" autocomplete="off"/>
+						<input type="text" class="mobile required" name="accountId" id="mobile" placeholder="用户账号" autocomplete="off"/>
 					</li>
 					<li>
 						<input type="password" class="psd required" name="password" id="psd" placeholder="密码" autocomplete="off"/>
@@ -76,6 +76,7 @@
 	</script>
 	<script>
 		$(function(){
+			var errorMsg = null;
 		//为表单的必填文本框添加提示信息（选择form中的所有后代input元素）
         // $("form :input.required").each(function () {
         //     //通过jquery api：$("HTML字符串") 创建jquery对象
@@ -106,7 +107,7 @@
                 var psdVal = $.trim(this.value);
                 var regPsd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
                 if(psdVal== "" || !regPsd.test(psdVal)){
-                    var errorMsg = " 密码为6-20位字母、数字的组合！";
+                    errorMsg = " 密码为6-20位字母、数字的组合！";
                     $parent.append("<span class='msg onError'>" + errorMsg + "</span>");
                 }
                 else{
@@ -121,14 +122,14 @@
 			$(this).triggerHandler("blur");
 		});
 
-				//点击重置按钮时，通过trigger()来触发文本框的失去焦点事件
+		// 		//点击重置按钮时，通过trigger()来触发文本框的失去焦点事件
 		// $("#btnSubmit").click(function(){
     	// 	//trigger 事件执行完后，浏览器会为submit按钮获得焦点
     	// 	$("form .required:input").trigger("blur");
 		//
-    	// 	var numError = $("loginError").val;
-    	// 	if(numError != null){
-		// 		alert('密码错误！')
+    	// 	// var numError = $("onError").val;
+    	// 	if(errorMsg != null){
+		// 		alert('密码输入错误！')
     	// 		return false;
     	// 	}
     	// 	alert('登陆成功！')
