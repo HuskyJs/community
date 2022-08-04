@@ -64,7 +64,10 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
-            response.addCookie(new Cookie("token", token));//将token加入到Cookie中   后续实现持续性的登录状态时  会从cookie中获取
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+            cookie.setPath("/");
+            response.addCookie(cookie);
             //登录成功  写cookie 和 session
             request.getSession().setAttribute("user", githubUser);
         }
