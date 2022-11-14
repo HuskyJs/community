@@ -1,6 +1,7 @@
 package tk.quanjia.community.interceptor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     private String githubRedirectUri;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
         request.getServletContext().setAttribute("githubRedirectUri", githubRedirectUri);
         Cookie[] cookies = request.getCookies();
 
